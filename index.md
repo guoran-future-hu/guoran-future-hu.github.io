@@ -10,7 +10,7 @@ Hi! I'm Guoran, feel free to call me **Future**. I read too many of Asimov's rob
 - **Generative models as world simulators**
     - conditioned on multimodal data like agent action, previous states, random events, etc.
     - modelling 2D camera view or 3D space
-- **Agents & World Models**
+- **Reinforcement Learning & World Models**
     - learn world models, then learn from world models
     - sim2real through world models
 - **Large foundation models**
