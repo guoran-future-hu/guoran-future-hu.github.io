@@ -8,13 +8,15 @@ Hi! I'm Guoran, feel free to call me **Future**. I read too many of Asimov's rob
 
 
 - **Generative models as world simulators**
-    - conditioned on multimodal data like agent action, previous states, random events, etc.
+    - conditioned on multimodal data like agent action, previous states, etc.
     - modelling 2D camera view or 3D space
-- **Reinforcement Learning & World Models**
+- **Reinforcement Learning & Robotics with World Models**
     - learn world models, then learn from world models
     - sim2real through world models
 - **Large foundation models**
     - Can we implement the above ideas in general-purpose large foundation models?
+
+I'm still in the stage of reading papers and learning, so expect this list to be frequently updated (likely becoming more specific).
 
 ---
 
