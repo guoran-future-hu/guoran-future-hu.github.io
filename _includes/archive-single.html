@@ -9,6 +9,23 @@
 {% else %}
   {% assign title = post.title %}
 {% endif %}
+{% assign subtitle = nil %}
+{% if post.subtitle %}
+  {% assign subtitle = post.subtitle | markdownify | remove: "<p>" | remove: "</p>" %}
+{% endif %}
+{% assign archive_excerpt = nil %}
+{% if post.data.excerpt %}
+  {% assign archive_excerpt = post.data.excerpt | markdownify | strip_html | truncate: 160 %}
+{% endif %}
+{% assign project_meta = nil %}
+{% if post.collection == "projects" %}
+  {% capture project_meta %}
+    {% if post.date %}<span>{{ post.date | date: "%b %Y" }}</span>{% endif %}
+    {% if post.conference %}<span>{{ post.conference }}</span>{% endif %}
+    {% if post.role %}<span>{{ post.role }}</span>{% endif %}
+  {% endcapture %}
+  {% assign project_meta = project_meta | strip %}
+{% endif %}
 
 <div class="{{ include.type | default: 'list' }}__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork"{% if post.locale %} lang="{{ post.locale }}"{% endif %}>
@@ -24,7 +41,13 @@
         <a href="{{ post.url | relative_url }}" rel="permalink">{{ title }}</a>
       {% endif %}
     </h2>
+    {% if subtitle %}
+      <p class="archive__item-subtitle">{{ subtitle }}</p>
+    {% endif %}
+    {% if project_meta != "" %}
+      <p class="archive__item-project-meta">{{ project_meta }}</p>
+    {% endif %}
     {% include page__meta.html type=include.type %}
-    {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
+    {% if archive_excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ archive_excerpt }}</p>{% endif %}
   </article>
 </div>

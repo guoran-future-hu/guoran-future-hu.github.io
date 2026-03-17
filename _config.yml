@@ -112,10 +112,10 @@ analytics:
 
 # Site Author
 author:
-  name             : "Guoran (Future) Hu"
+  name             : "Guoran Future Hu"
   avatar           : "/assets/images/pfp.jpg"
   bio              : "AI enthusiast and researcher. I use the name **Future** way often in daily life."
-  location         : "Earth"
+  location         : "Abu Dhabi, UAE"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
@@ -123,6 +123,12 @@ author:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://www.instagram.com/gr.future.hu/"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/guoran-hu-27a498290/"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/guoran-future-hu"
 
 # Site Footer
 footer:
@@ -293,10 +299,18 @@ defaults:
     values:
       layout: single
       author_profile: true
+      show_date: true
       read_time: true
       comments: # true
       share: true
       related: true
+  # _projects
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: single
+      author_profile: false
 
 collections:
   projects:

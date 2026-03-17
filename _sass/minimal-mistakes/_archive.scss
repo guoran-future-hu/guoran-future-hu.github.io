@@ -61,6 +61,23 @@
   }
 }
 
+.archive__item-subtitle {
+  margin: 0 0 0.35em;
+  font-size: $type-size-5;
+  line-height: 1.35;
+  color: $muted-text-color;
+}
+
+.archive__item-project-meta {
+  margin: 0 0 0.5em;
+  font-size: $type-size-6;
+  color: $muted-text-color;
+
+  span + span::before {
+    content: " / ";
+  }
+}
+
 /* remove border*/
 .page__content {
   .archive__item-title {
@@ -122,6 +139,8 @@
    ========================================================================== */
 
 .list__item {
+  margin-bottom: 2.5em;
+
   .page__meta {
     margin: 0 0 4px;
     font-size: 0.6em;
@@ -208,6 +227,10 @@
   .archive__item-title {
     margin-top: 0.5em;
     font-size: $type-size-5;
+  }
+
+  .archive__item-subtitle {
+    font-size: $type-size-6;
   }
 
   .archive__item-excerpt {
