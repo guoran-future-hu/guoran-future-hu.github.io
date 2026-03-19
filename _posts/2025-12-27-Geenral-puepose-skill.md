@@ -51,7 +51,7 @@ Over the past few years, we’ve been busy debating who gets to define “artifi
 
 — Robert A. Heinlein, *Time Enough for Love*
 
-<br>
+{% include figure image_path="/assets/images/time enough for love.png" alt="Alt text" caption="AI is getting really good at these images" %}
 
 The development of AI has been unexpected. Few would have predicted that AI could barely do anything before 2022, yet all of a sudden, they almost mastered the entire human language skill.
 
