@@ -4,6 +4,8 @@ date: 2025-12-27
 categories:
   - Blog
   - Tech Philosophy
+header:
+  og_image: /assets/images/time enough for love.png
 ---
 
 Earlier I mentioned that I’m not particularly satisfied with the *information density of genuinely high-value insights* in the talks organized by my institution. These events tend to transmit highly fragmented information, which I then have to digest and integrate on my own.

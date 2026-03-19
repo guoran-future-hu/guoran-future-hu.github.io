@@ -5,6 +5,8 @@ date: 2025-11-01
 categories:
   - Blog
   - Tech Philosophy
+header:
+  og_image: /assets/images/cave.png
 ---
 
 Institutions like ours regularly invite industry leaders to speak about their experiences. One day it might be Dana White from the UFC; the next, the CEO of a public company; the day after, the creator of *Angry Birds*.
