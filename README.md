@@ -40,4 +40,4 @@ For browser regression checks, install the test browser once with `npx playwrigh
 
 The workflow in `.github/workflows/deploy.yml` builds and deploys the site on pushes to `master` or `main`. In the GitHub repository, set **Settings → Pages → Source → GitHub Actions** once before deploying. Changes made locally are not published until pushed.
 
-The former Jekyll templates, configuration, and theme remain in the repository as reference; Astro does not read them. The original theme’s license remains in `LICENSE`.
+The site uses Astro only. `_posts/` and `_projects/` are active Markdown content directories; figure includes in existing essays are handled by the Astro content loader. `LICENSE` retains the original theme attribution.
