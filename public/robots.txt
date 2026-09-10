@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://guoran-future-hu.github.io/sitemap.xml

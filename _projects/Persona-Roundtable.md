@@ -1,8 +1,8 @@
 ---
-title: "Persona Roundtable: Multi-Perspective AI Deliberation"
+title: "Persona Roundtable"
 date: 2026-09-07
 conference: "Open-source project"
-excerpt: "A TypeScript CLI that convenes AI personas to debate a question and synthesize a cross-perspective conclusion."
+excerpt: "A command-line tool for exploring questions through conversations between AI personas with different perspectives."
 ---
 
 Persona Roundtable is a TypeScript command-line tool for exploring questions through structured debate among distinct AI personas. Each persona contributes a different cognitive framework, challenges the others’ assumptions, and a moderator produces a cross-perspective conclusion.

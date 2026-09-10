@@ -1,0 +1,51 @@
+---
+// A Lorenz attractor: a small visual expression of the site's interest in complex systems.
+let x = 0.1,
+  y = 0,
+  z = 0;
+const points: string[] = [];
+for (let i = 0; i < 5100; i++) {
+  const dt = 0.007;
+  const dx = 10 * (y - x),
+    dy = x * (28 - z) - y,
+    dz = x * y - (8 / 3) * z;
+  x += dx * dt;
+  y += dy * dt;
+  z += dz * dt;
+  if (i > 100)
+    points.push(`${(230 + x * 8.9).toFixed(2)},${(345 - z * 6.4).toFixed(2)}`);
+}
+---
+
+<figure class="attractor">
+  <div class="diagram-label">
+    <span>AN OPEN-ENDED INQUIRY</span><span>FIG. 01</span>
+  </div>
+  <svg
+    viewBox="0 0 460 385"
+    role="img"
+    aria-label="A Lorenz attractor: intricate looping paths emerging from a simple system"
+  >
+    <defs
+      ><pattern id="grid" width="23" height="23" patternUnits="userSpaceOnUse"
+        ><circle cx="1" cy="1" r="0.65" fill="currentColor" opacity="0.2"
+        ></circle></pattern
+      ></defs
+    >
+    <rect width="460" height="385" fill="url(#grid)"></rect>
+    <path d="M0 345H460 M230 0V385" class="diagram-axis"></path>
+    <polyline
+      points={points.join(" ")}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="0.65"
+      opacity="0.58"></polyline>
+    <circle cx="230" cy="345" r="3" fill="currentColor"></circle>
+    <text x="246" y="367">SIMPLE RULES. COMPLEX WORLDS.</text>
+  </svg>
+  <figcaption>
+    <span>Intelligence ↔ Systems ↔ Society</span><span
+      class="diagram-cross"
+      aria-hidden="true">+</span>
+  </figcaption>
+</figure>

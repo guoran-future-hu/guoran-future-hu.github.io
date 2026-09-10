@@ -1,0 +1,114 @@
+---
+import "@fontsource-variable/newsreader";
+import "@fontsource-variable/newsreader/wght-italic.css";
+import "@fontsource-variable/dm-sans";
+import "../styles/global.css";
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+const {
+  title,
+  description = "Guoran (Future) Hu. Writing about intelligence, philosophy, economics, and complex systems. Building tools and researching world models.",
+  image = "/assets/images/pfp.jpg",
+  article = false,
+} = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site);
+const navigation = [
+  ["Writing", "/blogs/"],
+  ["Projects", "/projects/"],
+  ["Neurodivergent", "/neurodivergent/"],
+  ["About", "/about/"],
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0eee6" />
+    <title>
+      {
+        title
+          ? `${title} — Future Hu`
+          : "Future Hu — Ideas into understanding. Understanding into things."
+      }
+    </title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Future Hu — Writing"
+      href="/feed.xml"
+    />
+    <meta
+      property="og:title"
+      content={title || "Future Hu — Thinking & building"}
+    />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/" aria-label="Future Hu, home"
+        >Future<span class="wordmark-dot">.</span><span class="wordmark-name"
+          >GUORAN HU</span
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        {
+          navigation.map(([label, href]) => (
+            <a
+              href={href}
+              aria-current={path.startsWith(href) ? "page" : undefined}
+            >
+              {label}
+            </a>
+          ))
+        }
+        <a class="nav-contact" href="mailto:i2754067952@gmail.com"
+          >Let’s talk <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <div class="footer-top">
+        <a class="wordmark" href="/"
+          >Future<span class="wordmark-dot">.</span></a
+        ><p>Always a work in progress.</p><a
+          class="text-link"
+          href="mailto:i2754067952@gmail.com"
+          >Start a conversation <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="footer-bottom">
+        <span>© {new Date().getFullYear()} Guoran Hu</span><div>
+          <a href="https://github.com/guoran-future-hu">GitHub ↗</a><a
+            href="https://www.linkedin.com/in/guoran-hu-27a498290/"
+            >LinkedIn ↗</a
+          ><a href="/feed.xml">RSS ↗</a>
+        </div><span>Thinking from Abu Dhabi. Looking outward.</span>
+      </div>
+      <p class="site-credit">Website co-built with GPT-6.</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-credit {
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.6;
+  }
+</style>

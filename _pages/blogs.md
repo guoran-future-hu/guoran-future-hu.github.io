@@ -6,7 +6,7 @@ author_profile: true
 sidebar:
   - title: "中文读者?"
     text: "扫码来我微信公众号，看更接地气的版本"
-    image: /assets/images/gong-zhong-hao.jpg
+    image: /assets/images/wx-qrcode.jpg
     image_bottom: true
     image_class: "sidebar__image--small"
 ---

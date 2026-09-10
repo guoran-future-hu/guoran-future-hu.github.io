@@ -1,0 +1,101 @@
+---
+import Site from "../../layouts/Site.astro";
+---
+
+<Site
+  title="Different Minds. New Ways to Work."
+  description="A personal reflection on AI agents, neurodivergence, and the possibility of new ways to work together."
+>
+  <div class="wrap">
+    <header class="page-intro">
+      <p class="eyebrow">NEURODIVERGENT / MY COMMITMENT</p>
+      <h1>Different minds.<br /><em>New ways to work.</em></h1>
+      <p>
+        AI is changing my sense of what I can do. It makes me wonder what that
+        could mean for the ways we work together.
+      </p>
+    </header>
+
+    <div class="narrative">
+      <p>
+        The way I see it, the journey from agricultural to industrial society
+        has largely been a story of organizing people at scale. Shared schedules,
+        standardized roles, and predictable routines made coordination possible,
+        while setting a narrow default for how people should pay attention,
+        communicate, and contribute.
+      </p>
+      <p>
+        That default largely reflects neurotypical expectations. For minds that
+        work differently, fitting into the organization can consume energy that
+        could otherwise go into discovery and creation.
+      </p>
+      <p>
+        Working with AI agents has made more of my ideas feel within reach. That
+        experience makes me hopeful about what AI could mean for neurodivergent
+        people, including those with ADHD, autism, and other forms of
+        neurodivergence: more room to work with our strengths and give our ideas
+        a life beyond our heads.
+      </p>
+      <p>
+        I’m committed to exploring new organizational structures and ways of
+        collaborating, with AI and neurodivergent ways of thinking built into
+        their foundations—so our potential has room to develop fully.
+      </p>
+    </div>
+
+    <figure class="vision-quote">
+      <blockquote>
+        “be more of an artist, look at things from a different direction, be
+        able to build something unique.”
+      </blockquote>
+      <figcaption>
+        Alex Karp, Palantir CEO, on different ways of thinking in the AI era
+        <a
+          href="https://podcasts.apple.com/us/podcast/full-interview-alex-karp-on-ai-job-loss-and-the-future-of-work/id1772360235?i=1000754930232"
+          >TBPN · Original interview · March 12, 2026 ↗</a
+        >
+        <a
+          href="https://fortune.com/2026/03/24/palantir-ceo-alex-karp-two-people-successful-in-ai-era-vocational-skills-neurodivergence-gen-z-career-advice/"
+          >Read the coverage in Fortune ↗</a
+        >
+      </figcaption>
+    </figure>
+  </div>
+</Site>
+
+<style>
+  .narrative {
+    max-width: 760px;
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .narrative p + p {
+    margin-top: 24px;
+  }
+  .vision-quote {
+    margin-block: 48px 64px;
+    padding: clamp(24px, 4vw, 44px);
+    background: var(--wash);
+    border-block: 1px solid var(--line);
+    max-width: 850px;
+  }
+  blockquote {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(25px, 3vw, 34px);
+    line-height: 1.3;
+    color: var(--primary);
+  }
+  figcaption {
+    margin-top: 24px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  figcaption a {
+    display: block;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>
