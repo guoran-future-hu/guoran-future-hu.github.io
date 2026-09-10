@@ -234,6 +234,30 @@ a:hover {
   border-color: var(--accent);
   color: var(--paper);
 }
+.hero-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 7px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.hero-name strong {
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+.hero-alias {
+  color: var(--muted);
+  font-weight: 400;
+}
+.hero-role {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
 .hero-note {
   font-size: 11px;
   color: var(--muted);
@@ -946,19 +970,28 @@ a:hover {
 }
 .about-hero {
   display: grid;
-  grid-template-columns: 1.3fr 0.7fr;
-  gap: 90px;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
   align-items: center;
   padding-block: 70px;
 }
 .about-hero .page-intro {
   padding: 0;
 }
+.portrait-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
 .about-portrait {
   width: 100%;
   aspect-ratio: 4/5;
+  height: auto;
   object-fit: cover;
   filter: saturate(0.7);
+}
+.about-portrait-second {
+  object-position: 53% center;
 }
 .portrait-caption {
   display: flex;
@@ -1507,10 +1540,10 @@ a:hover {
     font-size: 65px;
   }
   .about-hero figure {
-    max-width: 300px;
+    max-width: 480px;
   }
   .about-portrait {
-    aspect-ratio: 1/1;
+    aspect-ratio: 4/5;
   }
   .about-section {
     grid-template-columns: 1fr;
