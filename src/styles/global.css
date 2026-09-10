@@ -136,6 +136,7 @@ a:hover {
 .skip-link:focus {
   top: 10px;
 }
+/* Site navigation */
 .site-header {
   height: 108px;
   display: flex;
@@ -187,6 +188,7 @@ a:hover {
   margin-left: 15px;
   color: var(--accent);
 }
+/* Homepage */
 .hero {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
@@ -257,11 +259,6 @@ a:hover {
   font-size: 13px;
   line-height: 1.6;
   color: var(--muted);
-}
-.hero-note {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 26px;
 }
 .attractor {
   color: var(--accent);
@@ -367,6 +364,7 @@ a:hover {
 .writing-preview .text-link {
   margin-top: 26px;
 }
+/* Essay listings */
 .essay-row {
   border-top: 1px solid var(--line);
   padding: 30px 0;
@@ -417,6 +415,7 @@ a:hover {
   margin-top: auto;
   line-height: 1;
 }
+/* Projects and project cards */
 .work-section {
   background: var(--wash);
   border-block: 1px solid var(--line);
@@ -508,6 +507,11 @@ a:hover {
   mix-blend-mode: multiply;
   transition: transform 0.4s;
 }
+.project-placeholder {
+  font-family: var(--serif);
+  font-size: 32px;
+  text-align: center;
+}
 .recon-visual:hover img {
   transform: scale(1.025);
 }
@@ -536,6 +540,7 @@ a:hover {
 .project-card > .text-link {
   margin-top: 20px;
 }
+/* Homepage perspective and current work */
 .perspective {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -588,6 +593,7 @@ a:hover {
 .mobile-break {
   display: none;
 }
+/* Site footer */
 .site-footer {
   padding-block: 54px 25px;
 }
@@ -622,6 +628,7 @@ a:hover {
   display: flex;
   gap: 23px;
 }
+/* Shared page introductions */
 .page-intro {
   padding: 73px 0 46px;
   max-width: 780px;
@@ -643,6 +650,7 @@ a:hover {
   margin-top: 24px;
   color: var(--muted);
 }
+/* Writing page */
 .writing-tools {
   display: flex;
   align-items: center;
@@ -744,14 +752,7 @@ a:hover {
 .projects-page-grid {
   padding: 12px 0 70px;
 }
-.projects-note {
-  padding: 35px 0;
-  border-block: 1px solid var(--line);
-  font-family: var(--serif);
-  font-size: 24px;
-  font-style: italic;
-  color: var(--muted);
-}
+/* Article layout and Markdown typography */
 .article-wrap {
   max-width: 1200px;
 }
@@ -968,6 +969,7 @@ a:hover {
 .reading-progress::-moz-progress-bar {
   background: var(--accent);
 }
+/* About and shared experience timeline */
 .about-hero {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -1069,6 +1071,7 @@ a:hover {
   border-bottom: 1px solid var(--line);
   padding-bottom: 6px;
 }
+/* Not found page */
 .error-page {
   min-height: 60vh;
   padding: 90px 0;
@@ -1083,6 +1086,7 @@ a:hover {
   color: var(--muted);
   margin-bottom: 30px;
 }
+/* Responsive overrides (ordered from wide to narrow) */
 @media (min-width: 1500px) {
   .hero {
     padding-block: 95px;
@@ -1151,16 +1155,9 @@ a:hover {
   .hero-description {
     font-size: 14px;
   }
-  .hero .eyebrow {
-    font-size: 10px;
-  }
   .hero-links {
     flex-wrap: wrap;
     gap: 18px;
-  }
-  .hero-note {
-    max-width: 240px;
-    line-height: 1.6;
   }
   .diagram-label {
     font-size: 8px;
@@ -1305,8 +1302,8 @@ a:hover {
     padding-bottom: 35px;
   }
   .hero h1 {
-    font-size: 62px;
-    letter-spacing: -2.5px;
+    font-size: clamp(40px, 12.6vw, 62px);
+    letter-spacing: -1.8px;
     margin-block: 23px;
   }
   .hero-description {
@@ -1319,11 +1316,6 @@ a:hover {
   }
   .hero-links .text-link {
     font-size: 13px;
-  }
-  .hero-note {
-    max-width: none;
-    font-size: 11px;
-    margin-top: 23px;
   }
   .attractor {
     max-width: 350px;
@@ -1562,12 +1554,6 @@ a:hover {
   }
   .error-page h1 {
     font-size: 48px;
-  }
-}
-@media (max-width: 580px) {
-  .hero h1 {
-    font-size: clamp(40px, 12.6vw, 62px);
-    letter-spacing: -1.8px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

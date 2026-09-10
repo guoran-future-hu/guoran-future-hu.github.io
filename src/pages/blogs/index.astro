@@ -11,9 +11,11 @@ const categories = [...new Set(posts.map((p) => p.category))];
 >
   <div class="wrap">
     <header class="page-intro">
-      <p class="eyebrow">THE NOTEBOOK / ESSAYS & EXPLORATIONS</p><h1>
+      <p class="eyebrow">THE NOTEBOOK / ESSAYS & EXPLORATIONS</p>
+      <h1>
         Following the<br /><em>connections.</em>
-      </h1><p>
+      </h1>
+      <p>
         Notes on intelligence, society, and how the world works. An evolving
         perspective, built one question at a time.
       </p>
@@ -31,7 +33,8 @@ const categories = [...new Set(posts.map((p) => p.category))];
             </button>
           ))
         }
-      </div><label class="search-box"
+      </div>
+      <label class="search-box"
         ><svg
           viewBox="0 0 24 24"
           fill="none"
@@ -45,30 +48,37 @@ const categories = [...new Set(posts.map((p) => p.category))];
           id="essay-search"
           placeholder="Find an idea…"
           aria-label="Search essays"
-        /></label
-      >
+        />
+      </label>
     </div>
     <p class="results-note" aria-live="polite" id="result-count">
       {posts.length} essays
     </p>
     <div class="essay-list">
       {posts.map((post, index) => <EssayRow post={post} index={index} />)}
-    </div><p id="empty-state" class="empty-state" hidden>
+    </div>
+    <p id="empty-state" class="empty-state" hidden>
       No essays match yet. Try another word or topic.
     </p>
     <section class="writing-bottom">
       <div>
-        <h2>A note on these essays.</h2><p>
+        <h2>A note on these essays.</h2>
+        <p>
           These are snapshots of my thinking at the time of writing. My views
           keep evolving; the original essays stay as they were.
-        </p><a class="text-link" href="/feed.xml"
+        </p>
+        <a class="text-link" href="/feed.xml"
           >Follow via RSS <span aria-hidden="true">↗</span></a
         >
-      </div><div class="wechat">
-        <h2>中文读者？</h2><p>
+      </div>
+      <div class="wechat">
+        <h2>中文读者？</h2>
+        <p>
           我一般用中文写作，再翻译成英文。欢迎来公众号/小红书看没来得及翻译的，或者更接地气的版本。
-        </p><details>
-          <summary>打开微信公众号二维码</summary><img
+        </p>
+        <details>
+          <summary>打开微信公众号二维码</summary>
+          <img
             src="/assets/images/wx-qrcode.jpg"
             alt="扫码关注 Guoran 的微信公众号"
             loading="lazy"
@@ -76,7 +86,8 @@ const categories = [...new Set(posts.map((p) => p.category))];
           />
         </details>
         <details>
-          <summary>打开小红书二维码</summary><img
+          <summary>打开小红书二维码</summary>
+          <img
             src="/assets/images/xhs-qrcode.jpg"
             alt="扫码关注 Guoran 的小红书"
             loading="lazy"
@@ -91,28 +102,32 @@ const categories = [...new Set(posts.map((p) => p.category))];
   const input = document.querySelector<HTMLInputElement>("#essay-search")!;
   const buttons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
   const rows = document.querySelectorAll<HTMLElement>("[data-essay]");
-  let selected = "all";
-  function filter() {
+  const resultCount = document.querySelector<HTMLElement>("#result-count")!;
+  const emptyState = document.querySelector<HTMLElement>("#empty-state")!;
+  let selectedCategory = "all";
+
+  function filterEssays() {
+    const query = input.value.trim().toLowerCase();
     let count = 0;
     rows.forEach((row) => {
       const visible =
-        (selected === "all" || row.dataset.category === selected) &&
-        row.dataset.search!.includes(input.value.trim().toLowerCase());
+        (selectedCategory === "all" ||
+          row.dataset.category === selectedCategory) &&
+        (row.dataset.search ?? "").includes(query);
       row.hidden = !visible;
       if (visible) count++;
     });
-    document.querySelector("#result-count")!.textContent =
-      `${count} ${count === 1 ? "essay" : "essays"}`;
-    document.querySelector<HTMLElement>("#empty-state")!.hidden = count > 0;
+    resultCount.textContent = `${count} ${count === 1 ? "essay" : "essays"}`;
+    emptyState.hidden = count > 0;
   }
-  input.addEventListener("input", filter);
+  input.addEventListener("input", filterEssays);
   buttons.forEach((button) =>
     button.addEventListener("click", () => {
-      selected = button.dataset.filter!;
+      selectedCategory = button.dataset.filter ?? "all";
       buttons.forEach((b) =>
         b.setAttribute("aria-pressed", String(b === button)),
       );
-      filter();
+      filterEssays();
     }),
   );
 </script>

@@ -3,6 +3,8 @@ import "@fontsource-variable/newsreader";
 import "@fontsource-variable/newsreader/wght-italic.css";
 import "@fontsource-variable/dm-sans";
 import "../styles/global.css";
+import { navigation } from "../lib/site";
+
 interface Props {
   title?: string;
   description?: string;
@@ -17,12 +19,6 @@ const {
 } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
-const navigation = [
-  ["Writing", "/blogs/"],
-  ["Projects", "/projects/"],
-  ["Neurodivergent", "/neurodivergent/"],
-  ["About", "/about/"],
-];
 ---
 
 <!doctype html>
@@ -67,7 +63,7 @@ const navigation = [
       >
       <nav aria-label="Main navigation">
         {
-          navigation.map(([label, href]) => (
+          navigation.map(({ label, href }) => (
             <a
               href={href}
               aria-current={path.startsWith(href) ? "page" : undefined}
@@ -86,22 +82,22 @@ const navigation = [
       <div class="footer-top">
         <a class="wordmark" href="/"
           >Future<span class="wordmark-dot">.</span></a
-        ><p>Always a work in progress.</p><a
-          class="text-link"
-          href="mailto:i2754067952@gmail.com"
-          >Start a conversation <span aria-hidden="true">↗</span></a>
+        >
+        <p>Always a work in progress.</p>
+        <a class="text-link" href="mailto:i2754067952@gmail.com"
+          >Start a conversation <span aria-hidden="true">↗</span></a
+        >
       </div>
       <div class="footer-bottom">
-        <span>© {new Date().getFullYear()} Guoran Hu</span><div>
+        <span>© {new Date().getFullYear()} Guoran Hu</span>
+        <div>
           <a href="https://github.com/guoran-future-hu">GitHub ↗</a><a
             href="https://www.linkedin.com/in/guoran-hu-27a498290/"
             >LinkedIn ↗</a
           ><a href="/feed.xml">RSS ↗</a>
-        </div><span>Website co-built with GPT-6.</span>
+        </div>
+        <span>Website co-built with GPT-6.</span>
       </div>
     </footer>
   </body>
 </html>
-
-<style>
-</style>

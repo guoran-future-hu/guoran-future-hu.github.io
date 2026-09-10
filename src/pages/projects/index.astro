@@ -7,16 +7,20 @@ import { projects } from "../../lib/content";
 <Site
   title="Projects"
   description="Research and projects by Guoran Hu, from world models and 3D reconstruction to AI tools."
-  ><div class="wrap">
+>
+  <div class="wrap">
     <header class="page-intro projects-intro">
-      <p class="eyebrow">THE WORKSHOP / RESEARCH & EXPERIMENTS</p><h1>
+      <p class="eyebrow">THE WORKSHOP / RESEARCH & EXPERIMENTS</p>
+      <h1>
         Ideas, meeting<br /><em>the real world.</em>
-      </h1><p>
+      </h1>
+      <p>
         Tools to think with. Models to understand with. A growing collection of
         things I’m building and work I’ve contributed to.
       </p>
-    </header><div class="project-grid projects-page-grid">
+    </header>
+    <div class="project-grid projects-page-grid">
       {projects.map((project) => <ProjectCard project={project} />)}
     </div>
-  </div></Site
->
+  </div>
+</Site>

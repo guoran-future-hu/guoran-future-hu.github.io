@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.validation/
+public/assets/
+assets/
+_posts/
+_projects/
+package-lock.json
+LICENSE

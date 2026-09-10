@@ -25,40 +25,36 @@ const related = posts.filter((p) => p.slug !== entry.slug).slice(0, 2);
     <header class="article-header">
       <a class="back-link" href={project ? "/projects/" : "/blogs/"}
         >← Back to {project ? "projects" : "writing"}</a
-      ><p class="eyebrow">{entry.category}</p><h1>{entry.title}</h1><div
-        class="article-byline"
       >
+      <p class="eyebrow">{entry.category}</p>
+      <h1>{entry.title}</h1>
+      <div class="article-byline">
         <span>Guoran Hu</span><span aria-hidden="true">/</span><time
           datetime={entry.date.toISOString()}>{formatDate(entry.date)}</time
         >{
           !project && (
             <>
-              <>
-                <span aria-hidden="true">/</span>
-                <span>{entry.minutes} min read</span>
-              </>
+              <span aria-hidden="true">/</span>
+              <span>{entry.minutes} min read</span>
             </>
           )
         }
       </div>
     </header>
     <div class="article-grid">
-      <article class="prose" set:html={entry.html} /><aside
-        class="article-sidebar"
-      >
+      <article class="prose" set:html={entry.html} />
+      <aside class="article-sidebar">
         {
           entry.headings.length > 0 && (
             <nav aria-label="On this page">
-              <>
-                <p class="eyebrow">ON THIS PAGE</p>
-                <ul>
-                  {entry.headings.map((heading) => (
-                    <li>
-                      <a href={`#${heading.id}`} set:html={heading.title} />
-                    </li>
-                  ))}
-                </ul>
-              </>
+              <p class="eyebrow">ON THIS PAGE</p>
+              <ul>
+                {entry.headings.map((heading) => (
+                  <li>
+                    <a href={`#${heading.id}`} set:html={heading.title} />
+                  </li>
+                ))}
+              </ul>
             </nav>
           )
         }<p class="sidebar-note">
@@ -67,17 +63,21 @@ const related = posts.filter((p) => p.slug !== entry.slug).slice(0, 2);
               ? "From the workshop: ideas put into practice."
               : "A snapshot of my thinking. Written in its own time, left open to future revision."
           }
-        </p><div class="article-actions">
+        </p>
+        <div class="article-actions">
           <button id="copy-link">Copy link ↗</button><a
-            href="mailto:i2754067952@gmail.com">Discuss by email ↗</a>
+            href="mailto:i2754067952@gmail.com">Discuss by email ↗</a
+          >
         </div>
       </aside>
     </div>
     <div class="article-end">
-      <p>Have a different perspective?</p><a
+      <p>Have a different perspective?</p>
+      <a
         class="text-link"
         href={`mailto:i2754067952@gmail.com?subject=${encodeURIComponent(entry.title)}`}
-        >I’d like to hear it <span aria-hidden="true">↗</span></a>
+        >I’d like to hear it <span aria-hidden="true">↗</span></a
+      >
     </div>
     {
       !project && (

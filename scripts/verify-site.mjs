@@ -13,21 +13,18 @@ const page = await browser.newPage({
 });
 const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
-mkdirSync(".validation", { recursive: true });
-const routes = [
-  "/",
-  "/blogs/",
-  "/projects/",
-  "/about/",
-  "/neurodivergent/",
-  "/blogs/Causality/",
-  "/blogs/General-purpose-skill/",
-  "/blogs/GPT/",
-  "/projects/Persona-Roundtable/",
-  "/projects/ReconDrive/",
-];
+const captureScreenshots = process.env.SCREENSHOTS === "1";
+if (captureScreenshots) mkdirSync(".validation", { recursive: true });
 const internalLinks = new Set();
 try {
+  // Discover published pages so adding content does not require editing this list.
+  const sitemap = await page.request.get(base + "/sitemap.xml");
+  assert.equal(sitemap.status(), 200, "sitemap loads");
+  const routes = Array.from(
+    (await sitemap.text()).matchAll(/<loc>(.*?)<\/loc>/g),
+    ([, url]) => new URL(url).pathname,
+  );
+  assert.ok(routes.length > 0, "sitemap contains page routes");
   for (const width of [1440, 768, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const route of routes) {
@@ -48,6 +45,13 @@ try {
             .map((img) => img.src),
         );
       assert.deepEqual(images, [], `${route} has no broken images`);
+      // Scroll lazy images into view even when screenshots are disabled.
+      for (const img of await page.locator("img").all()) {
+        if (!(await img.isVisible())) continue;
+        await img.scrollIntoViewIfNeeded();
+        await expect(img).toHaveJSProperty("complete", true);
+        assert.ok(await img.evaluate((image) => image.naturalWidth > 0));
+      }
       assert.equal(
         (await page.locator("main").innerText()).includes("{%"),
         false,
@@ -73,18 +77,12 @@ try {
         }
       }
       if (
+        captureScreenshots &&
         (width === 1440 || width === 390) &&
         ["/", "/blogs/", "/about/", "/blogs/Causality/", "/projects/"].includes(
           route,
         )
       ) {
-        for (const img of await page.locator("img").all()) {
-          if (await img.isVisible()) {
-            await img.scrollIntoViewIfNeeded();
-            await expect(img).toHaveJSProperty("complete", true);
-            assert.ok(await img.evaluate((img) => img.naturalWidth > 0));
-          }
-        }
         await page.evaluate(() =>
           window.scrollTo({ top: 0, behavior: "instant" }),
         );
@@ -96,15 +94,32 @@ try {
     }
   }
   await page.goto(base + "/blogs/");
+  const allEssayCount = await page.locator("[data-essay]").count();
+  const searchMatchCount = await page
+    .locator('[data-search*="causality"]')
+    .count();
+  assert.ok(searchMatchCount > 0, "search fixture exists");
   await page.getByRole("searchbox").fill("causality");
-  assert.equal(await page.locator("[data-essay]:visible").count(), 1);
+  assert.equal(
+    await page.locator("[data-essay]:visible").count(),
+    searchMatchCount,
+  );
   await page.getByRole("searchbox").fill("no-such-essay-xyz");
   assert.equal(await page.locator("#empty-state").isVisible(), true);
   await page.getByRole("searchbox").fill("");
+  const categoryMatchCount = await page
+    .locator('[data-essay][data-category="Systems & philosophy"]')
+    .count();
   await page.getByRole("button", { name: "Systems & philosophy" }).click();
-  assert.equal(await page.locator("[data-essay]:visible").count(), 1);
+  assert.equal(
+    await page.locator("[data-essay]:visible").count(),
+    categoryMatchCount,
+  );
   await page.getByRole("button", { name: "All writing" }).click();
-  assert.equal(await page.locator("[data-essay]:visible").count(), 3);
+  assert.equal(
+    await page.locator("[data-essay]:visible").count(),
+    allEssayCount,
+  );
   for (const details of await page.locator(".wechat details").all()) {
     await details.locator("summary").click();
     await expect(details).toHaveAttribute("open", "");

@@ -15,14 +15,16 @@ const { post, index = 0 } = Astro.props;
 >
   <span class="row-number">{String(index + 1).padStart(2, "0")}</span>
   <div class="essay-row-main">
-    <p class="eyebrow">{post.category}</p><h3>
+    <p class="eyebrow">{post.category}</p>
+    <h3>
       <a href={post.url}>{post.title}</a>
-    </h3><p class="essay-description">{post.description}</p>
+    </h3>
+    <p class="essay-description">{post.description}</p>
   </div>
   <div class="essay-row-meta">
     <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time><span
       >{post.minutes} min read</span
-    ><a href={post.url} aria-label={`Read ${post.title}`} class="row-arrow"
-      >↗</a>
+    ><a href={post.url} aria-label={`Read ${post.title}`} class="row-arrow">↗</a
+    >
   </div>
 </article>

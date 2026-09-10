@@ -1,3 +1,5 @@
+import { editorial } from "./editorial";
+import { projectPresentation } from "./projects";
 import matter from "gray-matter";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
@@ -15,7 +17,7 @@ const markdown = new MarkdownIt({
       .trim()
       .replace(/\s+/g, "-"),
 });
-export const escape = (value: string) =>
+export const escapeMarkup = (value: string) =>
   value.replace(
     /[&<>"']/g,
     (c) =>
@@ -37,35 +39,6 @@ export interface Entry {
   headings: { id: string; title: string }[];
 }
 
-// Display metadata lives here so the original essays remain byte-for-byte intact.
-const editorial: Record<string, { description: string; category: string }> = {
-  "General-purpose-skill": {
-    category: "AI & society",
-    description:
-      "What remains valuable when specialized skills become easier to automate? A case for adaptability, judgment, and learning across domains.",
-  },
-  Causality: {
-    category: "Systems & philosophy",
-    description:
-      "Success stories rarely explain success. On luck, causality, and learning to see the systems behind individual outcomes.",
-  },
-  GPT: {
-    category: "AI & society",
-    description:
-      "A time capsule from 2023: an early exploration of GPT, human intelligence, and the future of our relationship with AI.",
-  },
-  ReconDrive: {
-    category: "Research · 3D / 4D",
-    description:
-      "Turning driving scenes into dynamic 3D worlds. Feed-forward 4D Gaussian splatting for autonomous driving.",
-  },
-  "Persona-Roundtable": {
-    category: "Open source · AI tool",
-    description:
-      "A command-line tool for exploring questions through conversations between AI personas with different perspectives.",
-  },
-};
-
 function renderLegacyFigures(body: string): string {
   return body.replace(
     /{%\s*include\s+figure\s+([\s\S]*?)%}/g,
@@ -76,7 +49,7 @@ function renderLegacyFigures(body: string): string {
       const caption = values.caption
         ? `<figcaption>${markdown.renderInline(values.caption)}</figcaption>`
         : "";
-      return `\n\n<figure><img src="${escape(values.image_path || "")}" alt="${escape(values.alt || "")}" loading="lazy">${caption}</figure>\n\n`;
+      return `\n\n<figure><img src="${escapeMarkup(values.image_path || "")}" alt="${escapeMarkup(values.alt || "")}" loading="lazy">${caption}</figure>\n\n`;
     },
   );
 }
@@ -88,6 +61,12 @@ function parseEntries(
   return Object.entries(files)
     .map(([path, raw]) => {
       const { data, content } = matter(raw);
+      const date = new Date(data.date);
+      if (Number.isNaN(date.getTime())) {
+        throw new Error(
+          `${path}: add a valid date (YYYY-MM-DD) to the front matter.`,
+        );
+      }
       const slug = path
         .split("/")
         .pop()!
@@ -98,7 +77,7 @@ function parseEntries(
       return {
         slug,
         title: String(data.title || slug),
-        date: new Date(data.date),
+        date,
         url: `/${type}/${slug}/`,
         html,
         description:
@@ -134,8 +113,8 @@ export const projects = parseEntries(
   "projects",
 ).sort(
   (a, b) =>
-    Number(a.slug === "Persona-Roundtable") -
-    Number(b.slug === "Persona-Roundtable"),
+    (projectPresentation[a.slug]?.order ?? 100) -
+    (projectPresentation[b.slug]?.order ?? 100),
 );
 export const formatDate = (date: Date) =>
   date.toLocaleDateString("en-GB", {
