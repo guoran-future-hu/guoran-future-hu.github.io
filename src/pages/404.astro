@@ -1,14 +1,23 @@
 ---
+import {
+  textLanguage,
+  translator,
+  localizedPath,
+  languageFromPath,
+} from "../lib/i18n";
 import Site from "../layouts/Site.astro";
+const t = translator(Astro.url.pathname);
+const local = (path: string) =>
+  localizedPath(path, languageFromPath(Astro.url.pathname));
 ---
 
-<Site title="Page not found">
+<Site title={t("Page not found")}>
   <section class="error-page wrap">
-    <span class="eyebrow">404 / AN UNFINISHED CONNECTION</span>
-    <h1>
-      This path leads<br /><em>somewhere else.</em>
+    <span class="eyebrow">{t("404 / AN UNFINISHED CONNECTION")}</span>
+    <h1 lang={textLanguage(t("This path leads"), t("somewhere else."))}>
+      {t("This path leads")}<br /><em>{t("somewhere else.")}</em>
     </h1>
-    <p>The page may have moved, or the address might be a little off.</p>
-    <a class="button" href="/">Back to the beginning ↗</a>
+    <p>{t("The page may have moved, or the address might be a little off.")}</p>
+    <a class="button" href={local("/")}>{t("Back to the beginning ↗")}</a>
   </section>
 </Site>

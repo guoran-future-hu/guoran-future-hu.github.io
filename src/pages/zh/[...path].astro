@@ -1,0 +1,41 @@
+---
+import Home from "../index.astro";
+import About from "../about/index.astro";
+import Writing from "../blogs/index.astro";
+import Projects from "../projects/index.astro";
+import Neurodivergent from "../neurodivergent/index.astro";
+import Article from "../../layouts/Article.astro";
+import NotFound from "../404.astro";
+import { posts, projects } from "../../lib/content";
+
+const pages = {
+  "404": NotFound,
+  home: Home,
+  about: About,
+  blogs: Writing,
+  projects: Projects,
+  neurodivergent: Neurodivergent,
+};
+
+export function getStaticPaths() {
+  return [
+    { params: { path: undefined }, props: { page: "home" } },
+    ...["about", "blogs", "projects", "neurodivergent", "404"].map((page) => ({
+      params: { path: page },
+      props: { page },
+    })),
+    ...posts.map((entry) => ({
+      params: { path: `blogs/${entry.slug}` },
+      props: { entry, project: false },
+    })),
+    ...projects.map((entry) => ({
+      params: { path: `projects/${entry.slug}` },
+      props: { entry, project: true },
+    })),
+  ];
+}
+const { page, entry, project } = Astro.props;
+const Page = page ? pages[page as keyof typeof pages] : undefined;
+---
+
+{Page ? <Page /> : <Article entry={entry!} project={project} />}

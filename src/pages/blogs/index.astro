@@ -1,35 +1,42 @@
 ---
+import { textLanguage, translator, languageFromPath } from "../../lib/i18n";
 import Site from "../../layouts/Site.astro";
 import EssayRow from "../../components/EssayRow.astro";
 import { posts } from "../../lib/content";
 const categories = [...new Set(posts.map((p) => p.category))];
+const t = translator(Astro.url.pathname);
+const language = languageFromPath(Astro.url.pathname);
 ---
 
 <Site
-  title="Writing"
+  title={t("Writing")}
   description="Essays by Guoran Hu on AI, philosophy, economics, and the complex systems that connect them."
 >
   <div class="wrap">
     <header class="page-intro">
-      <p class="eyebrow">THE NOTEBOOK / ESSAYS & EXPLORATIONS</p>
-      <h1>
-        Following the<br /><em>connections.</em>
+      <p class="eyebrow">{t("THE NOTEBOOK / ESSAYS & EXPLORATIONS")}</p>
+      <h1 lang={textLanguage(t("Following the"), t("connections."))}>
+        {t("Following the")}<br /><em>{t("connections.")}</em>
       </h1>
       <p>
-        Notes on intelligence, society, and how the world works. An evolving
-        perspective, built one question at a time.
+        {
+          t(
+            "Notes on intelligence, society, and how the world works. An evolving perspective, built one question at a time.",
+          )
+        }
       </p>
     </header>
     <div class="writing-tools">
       <div
         class="filter-tabs"
         role="group"
-        aria-label="Filter writing by topic"
+        aria-label={t("Filter writing by topic")}
       >
-        <button data-filter="all" aria-pressed="true">All writing</button>{
+        <button data-filter="all" aria-pressed="true">{t("All writing")}</button
+        >{
           categories.map((category) => (
             <button data-filter={category} aria-pressed="false">
-              {category}
+              {t(category)}
             </button>
           ))
         }
@@ -46,33 +53,39 @@ const categories = [...new Set(posts.map((p) => p.category))];
         ><input
           type="search"
           id="essay-search"
-          placeholder="Find an idea…"
-          aria-label="Search essays"
+          placeholder={t("Find an idea…")}
+          aria-label={t("Search essays")}
         />
       </label>
     </div>
     <p class="results-note" aria-live="polite" id="result-count">
-      {posts.length} essays
+      {posts.length}
+      {language === "zh" ? "篇文章" : "essays"}
     </p>
     <div class="essay-list">
       {posts.map((post, index) => <EssayRow post={post} index={index} />)}
     </div>
     <p id="empty-state" class="empty-state" hidden>
-      No essays match yet. Try another word or topic.
+      {t("No essays match yet. Try another word or topic.")}
     </p>
     <section class="writing-bottom">
       <div>
-        <h2>A note on these essays.</h2>
+        <h2 lang={textLanguage(t("A note on these essays."))}>
+          {t("A note on these essays.")}
+        </h2>
         <p>
-          These are snapshots of my thinking at the time of writing. My views
-          keep evolving; the original essays stay as they were.
+          {
+            t(
+              "These are snapshots of my thinking at the time of writing. My views keep evolving; the original essays stay as they were.",
+            )
+          }
         </p>
         <a class="text-link" href="/feed.xml"
-          >Follow via RSS <span aria-hidden="true">↗</span></a
+          >{t("Follow via RSS")} <span aria-hidden="true">↗</span></a
         >
       </div>
       <div class="wechat">
-        <h2>中文读者？</h2>
+        <h2 lang="zh-CN">中文读者？</h2>
         <p>
           我一般用中文写作，再翻译成英文。欢迎来公众号/小红书看没来得及翻译的，或者更接地气的版本。
         </p>
@@ -117,7 +130,10 @@ const categories = [...new Set(posts.map((p) => p.category))];
       row.hidden = !visible;
       if (visible) count++;
     });
-    resultCount.textContent = `${count} ${count === 1 ? "essay" : "essays"}`;
+    resultCount.textContent =
+      document.documentElement.lang === "zh-CN"
+        ? `${count} 篇文章`
+        : `${count} ${count === 1 ? "essay" : "essays"}`;
     emptyState.hidden = count > 0;
   }
   input.addEventListener("input", filterEssays);

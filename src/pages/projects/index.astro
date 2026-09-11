@@ -1,22 +1,27 @@
 ---
+import { textLanguage, translator } from "../../lib/i18n";
 import Site from "../../layouts/Site.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { projects } from "../../lib/content";
+const t = translator(Astro.url.pathname);
 ---
 
 <Site
-  title="Projects"
+  title={t("Projects")}
   description="Research and projects by Guoran Hu, from world models and 3D reconstruction to AI tools."
 >
   <div class="wrap">
     <header class="page-intro projects-intro">
-      <p class="eyebrow">THE WORKSHOP / RESEARCH & EXPERIMENTS</p>
-      <h1>
-        Ideas, meeting<br /><em>the real world.</em>
+      <p class="eyebrow">{t("THE WORKSHOP / RESEARCH & EXPERIMENTS")}</p>
+      <h1 lang={textLanguage(t("Ideas, meeting"), t("the real world."))}>
+        {t("Ideas, meeting")}<br /><em>{t("the real world.")}</em>
       </h1>
       <p>
-        Tools to think with. Models to understand with. A growing collection of
-        things I’m building and work I’ve contributed to.
+        {
+          t(
+            "Tools to think with. Models to understand with. A growing collection of things I’m building and work I’ve contributed to.",
+          )
+        }
       </p>
     </header>
     <div class="project-grid projects-page-grid">

@@ -1,62 +1,91 @@
 ---
+import { textLanguage, translator } from "../../lib/i18n";
 import Site from "../../layouts/Site.astro";
+const t = translator(Astro.url.pathname);
 ---
 
 <Site
-  title="Different Minds. New Ways to Work."
+  title={t("Different Minds. New Ways to Work.")}
   description="A personal reflection on AI agents, neurodivergence, and the possibility of new ways to work together."
 >
   <div class="wrap">
     <header class="page-intro">
-      <p class="eyebrow">NEURODIVERGENT / MY COMMITMENT</p>
-      <h1>Different minds.<br /><em>New ways to work.</em></h1>
+      <p class="eyebrow">{t("NEURODIVERGENT / MY COMMITMENT")}</p>
+      <h1 lang={textLanguage(t("Different minds."), t("New ways to work."))}>
+        {t("Different minds.")}<br /><em>{t("New ways to work.")}</em>
+      </h1>
       <p>
-        AI is changing my sense of what I can do. It makes me wonder what that
-        could mean for the ways we work together.
+        {
+          t(
+            "AI is changing my sense of what I can do—and how society could organize work and collaboration around different minds.",
+          )
+        }
       </p>
     </header>
 
     <div class="narrative">
       <p>
-        The way I see it, the journey from agricultural to industrial society
-        has largely been a story of organizing people at scale. Shared
-        schedules, standardized roles, and predictable routines made
-        coordination possible, while setting a narrow default for how people
-        should pay attention, communicate, and contribute.
+        {
+          t(
+            "The way I see it, the journey from agricultural to industrial society has largely been a story of organizing people at scale. Shared schedules, standardized roles, and predictable routines made coordination possible, while setting a narrow default for how people should pay attention, communicate, and contribute.",
+          )
+        }
       </p>
       <p>
-        That default largely reflects neurotypical expectations. For minds that
-        work differently, fitting into the organization can consume energy that
-        could otherwise go into discovery and creation.
+        {
+          t(
+            "Those social and organizational structures largely reflect neurotypical expectations. For minds that work differently, fitting in can consume energy that could otherwise go into discovery and creation. How much of our potential becomes visible depends on how we organize and collaborate.",
+          )
+        }
       </p>
       <p>
-        Working with AI agents has made more of my ideas feel within reach. That
-        experience makes me hopeful about what AI could mean for neurodivergent
-        people, including those with ADHD, autism, and other forms of
-        neurodivergence: more room to work with our strengths and give our ideas
-        a life beyond our heads.
+        {
+          t(
+            "Working with AI agents has made more of my ideas feel within reach. That experience makes me hopeful about what AI could mean for neurodivergent people, including those with ADHD, autism, and other forms of neurodivergence: more room to work with our strengths and give our ideas a life beyond our heads.",
+          )
+        }
       </p>
       <p>
-        I’m committed to exploring new organizational structures and ways of
-        collaborating, with AI and neurodivergent ways of thinking built into
-        their foundations—so our potential has room to develop fully.
+        {
+          t(
+            "I’m committed to exploring AI-native organizational structures and ways of collaborating, designed around neurodivergent ways of thinking. I want to help shape the social conditions in which our potential can develop fully.",
+          )
+        }
       </p>
     </div>
 
     <figure class="vision-quote">
-      <blockquote>
-        “be more of an artist, look at things from a different direction, be
-        able to build something unique.”
+      <blockquote lang="en">
+        <p>
+          “There are basically two ways to know you have a future. One, you have
+          some vocational training. Or two, you’re neurodivergent.”
+        </p>
+        <p class="quote-ellipsis" aria-label="Passage omitted">…</p>
+        <p>
+          “be more of an artist, look at things from a different direction, be
+          able to build something unique.”
+        </p>
       </blockquote>
+      {
+        Astro.url.pathname.startsWith("/zh/") && (
+          <p class="quote-translation">
+            译意：基本上，有两种方式能让你对自己的未来有把握：一是掌握职业技能，二是属于神经多样性人群。……更像艺术家一样思考，从不同角度看问题，创造独特的事物。
+          </p>
+        )
+      }
       <figcaption>
-        Alex Karp, Palantir CEO, on different ways of thinking in the AI era
+        {
+          t(
+            "Alex Karp, Palantir CEO, on different ways of thinking in the AI era",
+          )
+        }
         <a
           href="https://podcasts.apple.com/us/podcast/full-interview-alex-karp-on-ai-job-loss-and-the-future-of-work/id1772360235?i=1000754930232"
-          >TBPN · Original interview · March 12, 2026 ↗</a
+          >{t("TBPN · Original interview · March 12, 2026 ↗")}</a
         >
         <a
           href="https://fortune.com/2026/03/24/palantir-ceo-alex-karp-two-people-successful-in-ai-era-vocational-skills-neurodivergence-gen-z-career-advice/"
-          >Read the coverage in Fortune ↗</a
+          >{t("Read the coverage in Fortune ↗")}</a
         >
       </figcaption>
     </figure>
@@ -64,6 +93,12 @@ import Site from "../../layouts/Site.astro";
 </Site>
 
 <style>
+  .quote-translation {
+    margin-top: 18px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 15px;
+  }
   .narrative {
     max-width: 760px;
     font-size: 17px;
@@ -91,6 +126,13 @@ import Site from "../../layouts/Site.astro";
     margin-top: 24px;
     font-size: 13px;
     line-height: 1.8;
+    color: var(--muted);
+  }
+  blockquote p {
+    margin: 0;
+  }
+  .quote-ellipsis {
+    padding-block: 12px;
     color: var(--muted);
   }
   figcaption a {

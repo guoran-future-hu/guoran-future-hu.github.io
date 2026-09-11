@@ -28,6 +28,7 @@ html {
 }
 body {
   margin: 0;
+  font-family: var(--sans);
 }
 a {
   color: inherit;
@@ -181,6 +182,67 @@ a:hover {
   height: 1px;
   background: var(--accent);
 }
+.language-switch {
+  display: inline-flex;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2px;
+  gap: 2px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.site-header .language-switch a {
+  padding: 4px 7px;
+  border-radius: 2px;
+}
+.language-switch a[aria-current="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+:where(:lang(en)) {
+  --sans: "DM Sans Variable", sans-serif;
+  --serif: "Newsreader Variable", Georgia, serif;
+}
+:where(:lang(zh)) {
+  --sans: "DM Sans Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --serif: "Newsreader Variable", "LXGW WenKai Screen", serif;
+}
+/* Use WenKai for Chinese reading copy; controls and metadata keep sans-serif. */
+main p:lang(zh):not(.eyebrow, .hero-name, .hero-role, .project-meta) {
+  font-family: "DM Sans Variable", "LXGW WenKai Screen", sans-serif;
+}
+.prose p:lang(zh) {
+  font-family: var(--serif);
+}
+html h1:lang(zh),
+html h2:lang(zh),
+html h3:lang(zh) {
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-wrap: wrap;
+}
+html .hero h1:lang(zh) {
+  font-size: clamp(38px, 4.8vw, 68px);
+}
+html .page-intro h1:lang(zh) {
+  font-size: clamp(36px, 4.8vw, 64px);
+}
+.translation-note {
+  border-left: 2px solid var(--accent);
+  padding: 12px 18px;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.article-grid > div {
+  min-width: 0;
+}
+.prose[lang="zh-CN"] {
+  font-size: 19px;
+  line-height: 1.9;
+}
 .site-header .nav-contact {
   margin-left: 25px;
 }
@@ -208,6 +270,11 @@ a:hover {
 .perspective h2 em {
   font-weight: 400;
   color: var(--accent);
+}
+/* Optical clearance for italics following text on the same headline line.
+   Keep real spaces in the markup; line-initial italics need no offset. */
+.inline-emphasis {
+  margin-inline-start: 0.06em;
 }
 .hero-description {
   max-width: 455px;
@@ -282,11 +349,19 @@ a:hover {
 }
 .attractor figcaption {
   border-top: 1px solid var(--line);
-  padding-top: 13px;
+  margin-top: 12px;
+  padding-block: 20px 8px;
+  gap: 20px;
   font-size: 11px;
+  line-height: 1.9;
   letter-spacing: 0.04em;
 }
+.diagram-topics {
+  max-width: 38ch;
+  text-wrap: balance;
+}
 .diagram-cross {
+  flex-shrink: 0;
   font-size: 22px;
   font-weight: 300;
 }

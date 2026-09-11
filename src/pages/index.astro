@@ -1,9 +1,18 @@
 ---
+import {
+  textLanguage,
+  translator,
+  localizedPath,
+  languageFromPath,
+} from "../lib/i18n";
 import ExperienceTimeline from "../components/ExperienceTimeline.astro";
 import Site from "../layouts/Site.astro";
 import Attractor from "../components/Attractor.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { projects } from "../lib/content";
+const t = translator(Astro.url.pathname);
+const local = (path: string) =>
+  localizedPath(path, languageFromPath(Astro.url.pathname));
 ---
 
 <Site>
@@ -12,52 +21,83 @@ import { projects } from "../lib/content";
       <div class="hero-identity">
         <p class="hero-name">
           <strong>Guoran “Future” Hu</strong>
-          <span class="hero-alias">· aka the “Martian Squirrel”</span>
+          <span class="hero-alias">{t("· aka the “Martian Squirrel”")}</span>
         </p>
-        <p class="hero-role">AI researcher · Curious generalist</p>
+        <p class="hero-role">{t("AI researcher · Curious generalist")}</p>
       </div>
-      <h1>Think in systems.<br />Build with <em>intent.</em></h1>
+      <h1
+        lang={textLanguage(
+          t("Think in systems."),
+          t("Build with"),
+          t("intent."),
+        )}
+      >
+        {t("Think in systems.")}<br />{t("Build with")}{" "}
+        <em class="inline-emphasis">{t("intent.")}</em>
+      </h1>
       <p class="hero-description">
-        I explore how intelligence, technology, and society shape one
-        another—and build things to put those ideas to the test.
+        {
+          t(
+            "I explore how intelligence, technology, and society shape one another—and build things to put those ideas to the test.",
+          )
+        }
       </p>
       <div class="hero-links">
-        <a class="button" href="/blogs/"
-          >Explore my writing <span aria-hidden="true">↗</span></a
-        ><a class="text-link" href="/projects/"
-          >See what I’m building <span aria-hidden="true">↗</span></a
+        <a class="button" href={local("/blogs/")}
+          >{t("Explore my writing")} <span aria-hidden="true">↗</span></a
+        ><a class="text-link" href={local("/projects/")}
+          >{t("See what I’m building")} <span aria-hidden="true">↗</span></a
         >
       </div>
     </div>
     <Attractor />
   </section>
   <div class="topic-strip wrap">
-    <span class="eyebrow">THE THREADS I FOLLOW</span>
+    <span class="eyebrow">{t("THE THREADS I FOLLOW")}</span>
     <div>
-      <span>Artificial intelligence</span><i>/</i><span>Philosophy</span><i>/</i
-      ><span>Economics</span><i>/</i><span>Complex systems</span>
+      <span>{t("Artificial intelligence")}</span><i>/</i><span
+        >{t("Philosophy")}</span
+      ><i>/</i><span>{t("Economics")}</span><i>/</i><span
+        >{t("Complex systems")}</span
+      >
     </div>
   </div>
   <section class="section wrap" aria-labelledby="writing-title">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">01 / THE NOTEBOOK</p>
-        <h2 id="writing-title">Thinking across disciplines.</h2>
+        <p class="eyebrow">{t("01 / THE NOTEBOOK")}</p>
+        <h2
+          id="writing-title"
+          lang={textLanguage(t("Thinking across disciplines."))}
+        >
+          {t("Thinking across disciplines.")}
+        </h2>
       </div>
     </div>
     <div class="writing-preview">
       <p>
-        My writing brings AI, cognitive science, philosophy, sociology, and
-        complex systems into conversation—an ongoing attempt to connect ideas
-        across disciplines and see what they explain together.
+        {
+          t(
+            "My writing brings AI, cognitive science, philosophy, sociology, and complex systems into conversation—an ongoing attempt to connect ideas across disciplines and see what they explain together.",
+          )
+        }
       </p>
       <p>
-        Two essays trace that thread: <em>Reflections (Part I)</em> explores success,
-        luck, and causality; <em>Reflections (Part II)</em> asks what general-purpose
-        skills will matter in the post-AI era.
+        {t("Two essays trace that thread:")}{" "}
+        <em lang={textLanguage(t("Reflections (Part I)"))}
+          >{t("Reflections (Part I)")}</em
+        >
+        {" "}{t("explores success, luck, and causality;")}{" "}
+        <em lang={textLanguage(t("Reflections (Part II)"))}
+          >{t("Reflections (Part II)")}</em
+        >
+        {" "}{
+          t("asks what general-purpose skills will matter in the post-AI era.")
+        }
       </p>
-      <a class="text-link" href="/blogs/"
-        >Read the Reflections and more <span aria-hidden="true">↗</span></a
+      <a class="text-link" href={local("/blogs/")}
+        >{t("Read the Reflections and more")}
+        <span aria-hidden="true">↗</span></a
       >
     </div>
   </section>
@@ -65,11 +105,16 @@ import { projects } from "../lib/content";
     <div class="section wrap">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">02 / IDEAS INTO PRACTICE</p>
-          <h2 id="work-title">Thinking is a starting point.</h2>
+          <p class="eyebrow">{t("02 / IDEAS INTO PRACTICE")}</p>
+          <h2
+            id="work-title"
+            lang={textLanguage(t("Thinking is a starting point."))}
+          >
+            {t("Thinking is a starting point.")}
+          </h2>
         </div>
-        <a class="text-link" href="/projects/"
-          >All projects <span aria-hidden="true">↗</span></a
+        <a class="text-link" href={local("/projects/")}
+          >{t("All projects")} <span aria-hidden="true">↗</span></a
         >
       </div>
       <div class="project-grid">
@@ -79,23 +124,28 @@ import { projects } from "../lib/content";
   </section>
   <section class="perspective section wrap">
     <div>
-      <p class="eyebrow">03 / THE CONNECTING THREAD</p>
-      <h2>
-        A wider lens.<br /><em>A closer look.</em>
+      <p class="eyebrow">{t("03 / THE CONNECTING THREAD")}</p>
+      <h2 lang={textLanguage(t("A wider lens."), t("A closer look."))}>
+        {t("A wider lens.")}<br /><em>{t("A closer look.")}</em>
       </h2>
     </div>
     <div class="perspective-copy">
       <p>
-        I’m interested in what happens between disciplines. How does a model of
-        intelligence change our understanding of ourselves? What do incentives
-        explain that technology alone cannot?
+        {
+          t(
+            "I’m interested in what happens between disciplines. How does a model of intelligence change our understanding of ourselves? What do incentives explain that technology alone cannot?",
+          )
+        }
       </p>
       <p>
-        Research gives me a way to investigate. Writing helps me connect the
-        dots. Building is where those ideas meet reality.
+        {
+          t(
+            "Research gives me a way to investigate. Writing helps me connect the dots. Building is where those ideas meet reality.",
+          )
+        }
       </p>
-      <a class="text-link" href="/about/"
-        >A little more about me <span aria-hidden="true">↗</span></a
+      <a class="text-link" href={local("/about/")}
+        >{t("A little more about me")} <span aria-hidden="true">↗</span></a
       >
     </div>
   </section>
@@ -104,17 +154,24 @@ import { projects } from "../lib/content";
     class="about-section wrap"
     aria-labelledby="experience-title"
   >
-    <h2 id="experience-title">
-      <span class="eyebrow">04 / EDUCATION & EXPERIENCE</span>Along the way.
+    <h2 id="experience-title" lang={textLanguage(t("Along the way."))}>
+      <span class="eyebrow">{t("04 / EDUCATION & EXPERIENCE")}</span>{
+        t("Along the way.")
+      }
     </h2>
     <div><ExperienceTimeline /></div>
   </section>
   <section class="now-strip wrap">
-    <span class="eyebrow"><span class="status-dot"></span> CURRENTLY</span>
+    <span class="eyebrow"
+      ><span class="status-dot"></span> {t("CURRENTLY")}</span
+    >
     <p>
-      Studying machine learning at MBZUAI.<br class="mobile-break" /> Exploring world
-      models.
+      {t("Studying machine learning at MBZUAI.")}<br class="mobile-break" />
+      {t("Exploring world models.")}
     </p>
-    <a href="/about/#now" aria-label="More about what I'm doing now">↗</a>
+    <a
+      href={local("/about/#now")}
+      aria-label={t("More about what I'm doing now")}>↗</a
+    >
   </section>
 </Site>

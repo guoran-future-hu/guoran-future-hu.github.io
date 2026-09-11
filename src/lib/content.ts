@@ -116,10 +116,37 @@ export const projects = parseEntries(
     (projectPresentation[a.slug]?.order ?? 100) -
     (projectPresentation[b.slug]?.order ?? 100),
 );
-export const formatDate = (date: Date) =>
-  date.toLocaleDateString("en-GB", {
+export const formatDate = (date: Date, language = "en") =>
+  date.toLocaleDateString(language === "zh" ? "zh-CN" : "en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",
     timeZone: "UTC",
   });
+
+// Translations use the same slug as the original. Missing translations retain
+// the English body, and the article layout explicitly labels that fallback.
+const chineseProjects = parseEntries(
+  import.meta.glob("../../_projects/zh/*.md", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  }),
+  "projects",
+);
+const chinesePosts = parseEntries(
+  import.meta.glob("../../_posts/zh/*.md", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  }),
+  "blogs",
+);
+export function translatedEntry(
+  entry: Entry,
+  project: boolean,
+): Entry | undefined {
+  return (project ? chineseProjects : chinesePosts).find(
+    (candidate) => candidate.slug === entry.slug,
+  );
+}

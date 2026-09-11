@@ -1,7 +1,14 @@
 ---
+import {
+  textLanguage,
+  translator,
+  localizedPath,
+  languageFromPath,
+} from "../lib/i18n";
 import "@fontsource-variable/newsreader";
 import "@fontsource-variable/newsreader/wght-italic.css";
 import "@fontsource-variable/dm-sans";
+import "lxgw-wenkai-screen-webfont/lxgwwenkaiscreen.css";
 import "../styles/global.css";
 import { navigation } from "../lib/site";
 
@@ -19,10 +26,16 @@ const {
 } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site);
+const language = languageFromPath(path);
+const englishPath = localizedPath(path, "en");
+const chinesePath = localizedPath(path, "zh");
+const t = translator(Astro.url.pathname);
+const local = (path: string) =>
+  localizedPath(path, languageFromPath(Astro.url.pathname));
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={language === "zh" ? "zh-CN" : "en"}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,13 +43,30 @@ const canonical = new URL(path, Astro.site);
     <title>
       {
         title
-          ? `${title} — Future Hu`
-          : "Future Hu — Ideas into understanding. Understanding into things."
+          ? `${t(title)} — Future Hu`
+          : language === "zh"
+            ? "Future Hu — 从想法到理解，从理解到创造。"
+            : "Future Hu — Ideas into understanding. Understanding into things."
       }
     </title>
-    <meta name="description" content={description} />
+    <meta name="description" content={t(description)} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href={new URL(englishPath, Astro.site)}
+    />
+    <link
+      rel="alternate"
+      hreflang="zh-CN"
+      href={new URL(chinesePath, Astro.site)}
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(englishPath, Astro.site)}
+    />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -45,47 +75,71 @@ const canonical = new URL(path, Astro.site);
     />
     <meta
       property="og:title"
-      content={title || "Future Hu — Thinking & building"}
+      content={t(title || "Future Hu — Thinking & building")}
     />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={t(description)} />
+    <meta
+      property="og:locale"
+      content={language === "zh" ? "zh_CN" : "en_GB"}
+    />
     <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{t("Skip to content")}</a>
     <header class="site-header wrap">
-      <a class="wordmark" href="/" aria-label="Future Hu, home"
+      <a class="wordmark" href={local("/")} aria-label="Future Hu, home"
         >Future<span class="wordmark-dot">.</span><span class="wordmark-name"
           >GUORAN HU</span
         ></a
       >
-      <nav aria-label="Main navigation">
+      <nav aria-label={t("Main navigation")}>
         {
           navigation.map(({ label, href }) => (
             <a
-              href={href}
-              aria-current={path.startsWith(href) ? "page" : undefined}
+              href={local(href)}
+              aria-current={englishPath.startsWith(href) ? "page" : undefined}
             >
-              {label}
+              {t(label)}
             </a>
           ))
         }
         <a class="nav-contact" href="mailto:i2754067952@gmail.com"
-          >Let’s talk <span aria-hidden="true">↗</span></a
+          >{t("Let’s talk")} <span aria-hidden="true">↗</span></a
         >
+        <span
+          class="language-switch"
+          role="group"
+          aria-label={language === "zh" ? "切换语言" : "Language"}
+        >
+          <a
+            href={englishPath}
+            lang="en"
+            hreflang="en"
+            aria-current={language === "en" ? "true" : undefined}>EN</a
+          >
+          <a
+            href={chinesePath}
+            lang="zh-CN"
+            hreflang="zh-CN"
+            aria-current={language === "zh" ? "true" : undefined}>中</a
+          >
+        </span>
       </nav>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap">
       <div class="footer-top">
-        <a class="wordmark" href="/"
+        <a class="wordmark" href={local("/")}
           >Future<span class="wordmark-dot">.</span></a
         >
-        <p>Always a work in progress.</p>
+        <p lang={textLanguage(t("Always a work in progress."))}>
+          {t("Always a work in progress.")}
+        </p>
         <a class="text-link" href="mailto:i2754067952@gmail.com"
-          >Start a conversation <span aria-hidden="true">↗</span></a
+          >{t("Start a conversation")} <span aria-hidden="true">↗</span></a
         >
       </div>
       <div class="footer-bottom">
@@ -96,7 +150,7 @@ const canonical = new URL(path, Astro.site);
             >LinkedIn ↗</a
           ><a href="/feed.xml">RSS ↗</a>
         </div>
-        <span>Website co-built with GPT-6.</span>
+        <span>{t("Website co-built with GPT-6.")}</span>
       </div>
     </footer>
   </body>

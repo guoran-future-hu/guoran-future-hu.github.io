@@ -1,30 +1,42 @@
 ---
 import { formatDate, type Entry } from "../lib/content";
+import {
+  textLanguage,
+  translator,
+  localizedPath,
+  languageFromPath,
+} from "../lib/i18n";
 interface Props {
   post: Entry;
   index?: number;
 }
 const { post, index = 0 } = Astro.props;
+const language = languageFromPath(Astro.url.pathname);
+const t = translator(Astro.url.pathname);
+const url = localizedPath(post.url, language);
 ---
 
 <article
   class="essay-row"
   data-essay
-  data-search={`${post.title} ${post.description} ${post.category}`.toLowerCase()}
+  data-search={`${post.title} ${t(post.title)} ${post.description} ${t(post.description)} ${post.category} ${t(post.category)}`.toLowerCase()}
   data-category={post.category}
 >
   <span class="row-number">{String(index + 1).padStart(2, "0")}</span>
   <div class="essay-row-main">
-    <p class="eyebrow">{post.category}</p>
-    <h3>
-      <a href={post.url}>{post.title}</a>
+    <p class="eyebrow">{t(post.category)}</p>
+    <h3 lang={textLanguage(t(post.title))}>
+      <a href={url}>{t(post.title)}</a>
     </h3>
-    <p class="essay-description">{post.description}</p>
+    <p class="essay-description">{t(post.description)}</p>
   </div>
   <div class="essay-row-meta">
-    <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time><span
-      >{post.minutes} min read</span
-    ><a href={post.url} aria-label={`Read ${post.title}`} class="row-arrow">↗</a
+    <time datetime={post.date.toISOString()}
+      >{formatDate(post.date, language)}</time
+    ><span>{post.minutes} {language === "zh" ? "分钟阅读" : "min read"}</span><a
+      href={url}
+      aria-label={`${language === "zh" ? "阅读" : "Read"} ${t(post.title)}`}
+      class="row-arrow">↗</a
     >
   </div>
 </article>

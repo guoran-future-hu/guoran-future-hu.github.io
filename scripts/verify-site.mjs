@@ -30,9 +30,25 @@ try {
     for (const route of routes) {
       const response = await page.goto(base + route);
       assert.equal(response.status(), 200, `${route} loads`);
+      const isChinese = route.startsWith("/zh/");
+      await expect(page.locator("html")).toHaveAttribute(
+        "lang",
+        isChinese ? "zh-CN" : "en",
+      );
+      const otherLanguagePath = isChinese
+        ? route.replace(/^\/zh/, "")
+        : `/zh${route}`;
+      await expect(
+        page
+          .locator(".language-switch a")
+          .filter({ hasText: isChinese ? "EN" : "中" }),
+      ).toHaveAttribute("href", otherLanguagePath);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator("main").count(), 1);
       assert.ok((await page.locator("h1").count()) >= 1);
+      if (["/", "/about/", "/zh/", "/zh/about/"].includes(route)) {
+        await expect(page.locator(".timeline-row")).toHaveCount(4);
+      }
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth + 1,
       );
@@ -93,6 +109,33 @@ try {
       }
     }
   }
+  // Untranslated headings must keep their English typography on Chinese pages.
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const headings = [];
+    for (const route of ["/", "/zh/"]) {
+      await page.goto(base + route);
+      headings.push(
+        await page.locator(".hero h1").evaluate((heading) => {
+          const style = getComputedStyle(heading);
+          return {
+            text: heading.textContent.replace(/\s+/g, " ").trim(),
+            font: style.fontFamily,
+            size: style.fontSize,
+            leading: style.lineHeight,
+            spacing: style.letterSpacing,
+          };
+        }),
+      );
+    }
+    if (headings[0].text === headings[1].text) {
+      assert.deepEqual(
+        headings[1],
+        headings[0],
+        `English hero typography at ${width}px`,
+      );
+    }
+  }
   await page.goto(base + "/blogs/");
   const allEssayCount = await page.locator("[data-essay]").count();
   const searchMatchCount = await page
@@ -138,6 +181,26 @@ try {
     await page.evaluate(() => navigator.clipboard.readText()),
     page.url(),
   );
+  await page.goto(base + "/zh/blogs/");
+  await page.getByRole("searchbox").fill("因果");
+  assert.ok(
+    (await page.locator("[data-essay]:visible").count()) > 0,
+    "Chinese search finds translated titles",
+  );
+  await page.getByRole("searchbox").fill("");
+  await page.getByRole("button", { name: "系统与哲学" }).click();
+  assert.ok(
+    (await page.locator("[data-essay]:visible").count()) > 0,
+    "Chinese category filters work",
+  );
+  await page.goto(base + "/zh/projects/ReconDrive/");
+  await expect(page.locator(".prose")).toHaveAttribute("lang", "zh-CN");
+  await page
+    .locator(".language-switch")
+    .getByRole("link", { name: "EN", exact: true })
+    .click();
+  await page.waitForURL("**/projects/ReconDrive/");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
   for (const link of internalLinks)
     assert.equal(
       (await page.request.get(base + link)).status(),
